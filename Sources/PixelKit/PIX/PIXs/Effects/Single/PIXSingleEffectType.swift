@@ -13,7 +13,6 @@ public enum PIXSingleEffectType: String, Codable, Hashable, CaseIterable, Identi
     case colorCorrect
     case colorShift
     case convert
-    case cornerPin
     case crop
     case delay
     case distance
@@ -70,8 +69,6 @@ public enum PIXSingleEffectType: String, Codable, Hashable, CaseIterable, Identi
             return "Color Shift"
         case .convert:
             return "Convert"
-        case .cornerPin:
-            return "Corner Pin"
         case .crop:
             return "Crop"
         case .delay:
@@ -174,8 +171,6 @@ public enum PIXSingleEffectType: String, Codable, Hashable, CaseIterable, Identi
             return ColorShiftPIX.self
         case .convert:
             return ConvertPIX.self
-        case .cornerPin:
-            return CornerPinPIX.self
         case .crop:
             return CropPIX.self
         case .delay:

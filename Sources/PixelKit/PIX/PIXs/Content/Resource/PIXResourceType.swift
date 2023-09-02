@@ -3,15 +3,11 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
     
     public var id: String { rawValue }
     
-    case camera
     case image
     case vector
     case video
     case view
     case web
-    case screenCapture
-    case depthCamera
-    case multiCamera
     case paint
     case streamIn
     case maps
@@ -19,8 +15,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
     
     public var name: String {
         switch self {
-        case .camera:
-            return "Camera"
         case .image:
             return "Image"
         case .vector:
@@ -31,12 +25,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
             return "View"
         case .web:
             return "Web"
-        case .screenCapture:
-            return "Screen Capture"
-        case .depthCamera:
-            return "Depth Camera"
-        case .multiCamera:
-            return "Multi Camera"
         case .paint:
             return "Paint"
         case .streamIn:
@@ -64,8 +52,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
         case .image:
             return ImagePIX.self
         #if !os(tvOS)
-        case .camera:
-            return CameraPIX.self
         case .vector:
             return VectorPIX.self
         case .web:
@@ -80,10 +66,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
             return ScreenCapturePIX.self
         #endif
         #if os(iOS)
-        case .depthCamera:
-            return DepthCameraPIX.self
-        case .multiCamera:
-            return MultiCameraPIX.self
         #if !targetEnvironment(simulator)
         case .paint:
             return PaintPIX.self
@@ -91,8 +73,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
         case .streamIn:
             return StreamInPIX.self
         #endif
-        case .maps:
-            return EarthPIX.self
         #if !os(tvOS)
         case .p5js:
             return P5JSPIX.self

@@ -244,9 +244,6 @@ public enum PIXType: Equatable, CaseIterable {
                     return nil
                     #endif
                 }
-                if resource == .maps {
-                    return EarthPIX(at: resolution)
-                }
                 if resource == .paint {
                     #if os(iOS) && !targetEnvironment(simulator)
                     return PaintPIX(at: resolution)
@@ -324,16 +321,6 @@ public enum PIXType: Equatable, CaseIterable {
                     return false
                     #endif
                 }
-                if resource == .camera {
-                    #if !os(tvOS)
-                    guard let cameraPix = pix as? CameraPIX else { return false }
-                    guard let cameraResolution = CameraPIX.CameraResolution(resolution: resolution) else { return false }
-                    cameraPix.cameraResolution = cameraResolution
-                    return true
-                    #else
-                    return false
-                    #endif
-                }
                 return false
             case .sprite:
                 guard let spritePix = pix as? PIXSprite else { return false }
@@ -379,9 +366,6 @@ public enum PIXType: Equatable, CaseIterable {
     // MARK: Camera
     
     public var isCamera: Bool {
-        if self == .content(.resource(.camera)) { return true }
-        if self == .content(.resource(.depthCamera)) { return true }
-        if self == .content(.resource(.multiCamera)) { return true }
         return false
     }
     

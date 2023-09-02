@@ -71,7 +71,7 @@ open class PIXResource: PIXContent, NODEResource {
         #if os(tvOS)
         force8bit = false
         #else
-        force8bit = self is CameraPIX
+        force8bit = false
         #endif
         do {
             return try Texture.makeTextureFromCache(from: pixelBuffer, bits: force8bit ? ._8 : PixelKit.main.render.bits, in: PixelKit.main.render.textureCache)

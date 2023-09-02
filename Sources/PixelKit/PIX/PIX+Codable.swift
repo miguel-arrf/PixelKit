@@ -67,12 +67,6 @@ extension PIX {
         for type in PIXResourceType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .camera:
-#if !os(tvOS)
-                return try encoder.encode(pixelModel as! CameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
             case .image:
                 return try encoder.encode(pixelModel as! ImagePixelModel)
             case .vector:
@@ -91,24 +85,6 @@ extension PIX {
 #else
                 throw CodingError.badOS
 #endif
-            case .screenCapture:
-#if os(macOS) && !targetEnvironment(macCatalyst)
-                return try encoder.encode(pixelModel as! ScreenCapturePixelModel)
-#else
-                throw CodingError.badOS
-#endif
-            case .depthCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return try encoder.encode(pixelModel as! DepthCameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
-            case .multiCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return try encoder.encode(pixelModel as! MultiCameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
             case .paint:
 #if os(iOS) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
                 return try encoder.encode(pixelModel as! PaintPixelModel)
@@ -122,7 +98,7 @@ extension PIX {
                 throw CodingError.badOS
 #endif
             case .maps:
-                return try encoder.encode(pixelModel as! EarthPixelModel)
+                return try encoder.encode(pixelModel as! StreamInPixelModel)
             case .p5js:
 #if !os(tvOS)
                 return try encoder.encode(pixelModel as! P5JSPixelModel)
@@ -163,8 +139,6 @@ extension PIX {
                 return try encoder.encode(pixelModel as! ColorShiftPixelModel)
             case .convert:
                 return try encoder.encode(pixelModel as! ConvertPixelModel)
-            case .cornerPin:
-                return try encoder.encode(pixelModel as! CornerPinPixelModel)
             case .crop:
                 return try encoder.encode(pixelModel as! CropPixelModel)
             case .delay:
@@ -363,12 +337,6 @@ extension PIX {
         for type in PIXResourceType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .camera:
-#if !os(tvOS)
-                return try decoder.decode(CameraPixelModel.self, from: data)
-#else
-                throw CodingError.badOS
-#endif
             case .image:
                 return try decoder.decode(ImagePixelModel.self, from: data)
             case .vector:
@@ -387,24 +355,7 @@ extension PIX {
 #else
                 throw CodingError.badOS
 #endif
-            case .screenCapture:
-#if os(macOS) && !targetEnvironment(macCatalyst)
-                return try decoder.decode(ScreenCapturePixelModel.self, from: data)
-#else
-                throw CodingError.badOS
-#endif
-            case .depthCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return try decoder.decode(DepthCameraPixelModel.self, from: data)
-#else
-                throw CodingError.badOS
-#endif
-            case .multiCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return try decoder.decode(MultiCameraPixelModel.self, from: data)
-#else
-                throw CodingError.badOS
-#endif
+         
             case .paint:
 #if os(iOS) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
                 return try decoder.decode(PaintPixelModel.self, from: data)
@@ -418,7 +369,7 @@ extension PIX {
                 throw CodingError.badOS
 #endif
             case .maps:
-                return try decoder.decode(EarthPixelModel.self, from: data)
+                return try decoder.decode(StreamInPixelModel.self, from: data)
             case .p5js:
 #if !os(tvOS)
                 return try decoder.decode(P5JSPixelModel.self, from: data)
@@ -459,8 +410,6 @@ extension PIX {
                 return try decoder.decode(ColorShiftPixelModel.self, from: data)
             case .convert:
                 return try decoder.decode(ConvertPixelModel.self, from: data)
-            case .cornerPin:
-                return try decoder.decode(CornerPinPixelModel.self, from: data)
             case .crop:
                 return try decoder.decode(CropPixelModel.self, from: data)
             case .delay:
@@ -652,12 +601,7 @@ extension PIX {
         for type in PIXResourceType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .camera:
-#if !os(tvOS)
-                return CameraPIX(model: pixelModel as! CameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
+           
             case .image:
                 return ImagePIX(model: pixelModel as! ImagePixelModel)
             case .vector:
@@ -676,24 +620,7 @@ extension PIX {
 #else
                 throw CodingError.badOS
 #endif
-            case .screenCapture:
-#if os(macOS) && !targetEnvironment(macCatalyst)
-                return ScreenCapturePIX(model: pixelModel as! ScreenCapturePixelModel)
-#else
-                throw CodingError.badOS
-#endif
-            case .depthCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return DepthCameraPIX(model: pixelModel as! DepthCameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
-            case .multiCamera:
-#if os(iOS) && !targetEnvironment(macCatalyst)
-                return MultiCameraPIX(model: pixelModel as! MultiCameraPixelModel)
-#else
-                throw CodingError.badOS
-#endif
+          
             case .paint:
 #if os(iOS) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
                 return PaintPIX(model: pixelModel as! PaintPixelModel)
@@ -707,7 +634,11 @@ extension PIX {
                 throw CodingError.badOS
 #endif
             case .maps:
-                return EarthPIX(model: pixelModel as! EarthPixelModel)
+#if os(iOS)
+                return StreamInPIX(model: pixelModel as! StreamInPixelModel)
+#else
+                throw CodingError.badOS
+#endif
             case .p5js:
 #if !os(tvOS)
                 return P5JSPIX(model: pixelModel as! P5JSPixelModel)
@@ -748,8 +679,6 @@ extension PIX {
                 return ColorShiftPIX(model: pixelModel as! ColorShiftPixelModel)
             case .convert:
                 return ConvertPIX(model: pixelModel as! ConvertPixelModel)
-            case .cornerPin:
-                return CornerPinPIX(model: pixelModel as! CornerPinPixelModel)
             case .crop:
                 return CropPIX(model: pixelModel as! CropPixelModel)
             case .delay:

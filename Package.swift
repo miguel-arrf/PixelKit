@@ -25,8 +25,5 @@ let package = Package(
         ], resources: [
             .process("PIX/PIXs/Content/Resource/P5JS/p5.min.js"),
         ]),
-        .testTarget(name: "PixelKitTests", dependencies: ["PixelKit"], resources: [
-            .process("pix-content-generator-arc.json"),
-        ]),
     ]
 )
