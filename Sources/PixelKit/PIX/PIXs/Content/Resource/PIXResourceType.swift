@@ -61,10 +61,6 @@ public enum PIXResourceType: String, Codable, Hashable, CaseIterable, Identifiab
             return VideoPIX.self
         case .view:
             return ViewPIX.self
-        #if os(macOS)
-        case .screenCapture:
-            return ScreenCapturePIX.self
-        #endif
         #if os(iOS)
         #if !targetEnvironment(simulator)
         case .paint:

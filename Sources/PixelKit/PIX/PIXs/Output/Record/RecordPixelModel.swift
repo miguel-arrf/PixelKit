@@ -29,7 +29,6 @@ public struct RecordPixelModel: PixelOutputModel {
     public var timeSync: Bool = true
     public var realtime: Bool = true
     public var directMode: Bool = true
-    public var quality: RecordPIX.Quality = .default
 }
 
 extension RecordPixelModel {
@@ -56,7 +55,6 @@ extension RecordPixelModel {
         timeSync = try container.decode(Bool.self, forKey: .timeSync)
         realtime = try container.decode(Bool.self, forKey: .realtime)
         directMode = try container.decode(Bool.self, forKey: .directMode)
-        quality = try container.decode(RecordPIX.Quality.self, forKey: .quality)
     }
 }
 
@@ -69,7 +67,6 @@ extension RecordPixelModel {
         guard timeSync == pixelModel.timeSync else { return false }
         guard realtime == pixelModel.realtime else { return false }
         guard directMode == pixelModel.directMode else { return false }
-        guard quality == pixelModel.quality else { return false }
         return true
     }
 }

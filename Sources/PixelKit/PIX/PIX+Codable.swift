@@ -98,7 +98,7 @@ extension PIX {
                 throw CodingError.badOS
 #endif
             case .maps:
-                return try encoder.encode(pixelModel as! StreamInPixelModel)
+                return try encoder.encode(pixelModel as! P5JSPixelModel)
             case .p5js:
 #if !os(tvOS)
                 return try encoder.encode(pixelModel as! P5JSPixelModel)
@@ -265,8 +265,6 @@ extension PIX {
         for type in PIXOutputType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .record:
-                return try encoder.encode(pixelModel as! RecordPixelModel)
             case .airPlay:
 #if os(iOS)
                 return try encoder.encode(pixelModel as! AirPlayPixelModel)
@@ -369,7 +367,7 @@ extension PIX {
                 throw CodingError.badOS
 #endif
             case .maps:
-                return try decoder.decode(StreamInPixelModel.self, from: data)
+                return try decoder.decode(P5JSPixelModel.self, from: data)
             case .p5js:
 #if !os(tvOS)
                 return try decoder.decode(P5JSPixelModel.self, from: data)
@@ -536,8 +534,6 @@ extension PIX {
         for type in PIXOutputType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .record:
-                return try decoder.decode(RecordPixelModel.self, from: data)
             case .airPlay:
 #if os(iOS)
                 return try decoder.decode(AirPlayPixelModel.self, from: data)
@@ -809,8 +805,6 @@ extension PIX {
         for type in PIXOutputType.allCases {
             guard type.typeName == typeName else { continue }
             switch type {
-            case .record:
-                return RecordPIX(model: pixelModel as! RecordPixelModel)
             case .airPlay:
 #if os(iOS)
                 return AirPlayPIX(model: pixelModel as! AirPlayPixelModel)
